@@ -73,7 +73,7 @@ int main(int argc, char* argv[]) {
 
         if (choice == "a")
         {
-            cout << "Creating an index using a BST.";
+            cout << "Creating an index using a BST.\n";
             BST myTree;
             bstFunction(myTree, input);
             cout << "";
