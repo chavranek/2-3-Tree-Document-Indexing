@@ -21,7 +21,7 @@ int bstFunction(BST & myTree, ifstream & input){
         input.close();
         while(1){
             choice = 0;
-            cout <<"Options: (1) display index, (2) search, (3) save index, (4) quit\n";
+            cout << "Options: (1) display index, (2) search, (3) save index, (4) quit\n";
             cin >> choice;
 
             choice = int(choice);
@@ -45,7 +45,6 @@ int bstFunction(BST & myTree, ifstream & input){
                 cout << "Saved\n";
             }
 
-                //Quit
             else
                 break;
         }
