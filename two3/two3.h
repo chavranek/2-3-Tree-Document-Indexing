@@ -15,14 +15,14 @@ class two3{
 
         node(){
             string leftKey = "";
-            string rightKey = ""
+            string rightKey = "";
             node *center = NULL;
             node *left = NULL;
             node *right = NULL;
             node *parent = NULL;
         }
         node(const string &lk,
-             string &rk,
+             const string &rk,
              node *l, node *r, node *c, node *p)
                 : leftKey(lk), rightKey(rk),
                   left(l), right(r), center(c), parent(p)
@@ -31,14 +31,13 @@ class two3{
         }
 
         string leftKey;
-        strinf rightKey;
+        string rightKey;
         node *center;
         node *left;
         node *right;
         node *parent;
         vector<int> leftLines;
         vector<int> rightLines;
-        node *root;
 
         bool isLeaf(){
             return left == NULL;
@@ -64,12 +63,18 @@ class two3{
         {
             right = it;
         }
-        void add();
+        void add(const string & word, int line);
     };
+    string containsHelper(const string & x, node * t, node* &result) const;
 public:
     two3();
     void contains() const;
     bool isEmpty();
     void printTree(ostream & out = cout) const;
     void buildTree(ifstream & input);
+    vector<string> distinctInputWords;
+    void insertHelp(const string & word, int line, node *& rt, int &distWords);
+    node *root;
 };
+
+#endif
