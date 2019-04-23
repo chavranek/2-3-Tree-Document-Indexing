@@ -20,8 +20,8 @@ class BST{
         void buildTree(ifstream & input);
     private:
     struct node{
-	    node(const string &x, node *l, node *r)
-		:key(x), left(l), right(r){
+	    node(const string &x, node *l, node *r):
+	    key(x), left(l), right(r){
                 lines.resize(0);
 	    }
 	    string key;

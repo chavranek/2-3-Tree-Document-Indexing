@@ -9,26 +9,17 @@
 using namespace std;
 
 class two3{
-    public:
-        two3();
-        void contains() const;
-        bool isEmpty();
-        void printTree(ostream & out = cout) const;
-        void buildTree(ifstream & input);
     private:
     struct node
     {
-        /*vector<int> leftLines;
-        string leftKey;
-        vector<int> rightLines;
-        string rightKey;
-        node * left;
-        node * center;
-        node * right;*/
+
         node(){
-            center = NULL;
-            left = NULL;
-            right = NULL;
+            string leftKey = "";
+            string rightKey = ""
+            node *center = NULL;
+            node *left = NULL;
+            node *right = NULL;
+            node *parent = NULL;
         }
         node(const string &lk,
              string &rk,
@@ -49,37 +40,18 @@ class two3{
         vector<int> rightLines;
         node *root;
 
-        bool isLeaf();
-        node leftChild()
-        {
-            return left;
+        bool isLeaf(){
+            return left == NULL;
         }
-        node rightChild(){
-            return right;
-        }
-        node centerChild(){
-            return center;
-        }
-        string getLeftKey(){
-            return leftKey;
-        }
-        vector<int> getLeftLines(){
-            return leftLines;
-        }
-        string getRightKey(){
-            return rightKey;
-        }
-        vector<int> getRightLines(){
-            return rightLines;
-        }
-        void setLeft(string key, vector<int> lines){
+
+        /*void setLeft(string key, vector<int> lines){
             leftKey = key;
             leftLines = lines;
         }
         void setRight(string key, vector<int> lines){
             rightKey = key;
             rightLines = lines;
-        }
+        }*/
         void setLeftChild(node *it)
         {
             left = it;
@@ -92,5 +64,12 @@ class two3{
         {
             right = it;
         }
+        void add();
     };
+public:
+    two3();
+    void contains() const;
+    bool isEmpty();
+    void printTree(ostream & out = cout) const;
+    void buildTree(ifstream & input);
 };

@@ -125,4 +125,33 @@ void two3::buildTree(ifstream & input){
 
 void two3::insertHelp(const string & word, int line, node *& rt, int &distWords){
     // going to try to follow code from open dsa
+    if (rt == NULL){
+        rt = new node(word, NULL, NULL, NULL, NULL, NULL);
+        rt->leftLines.pushback(line);
+        distWords++;
+    }
+    else if (rt.isLeaf()){ // insert at leaf node
+        rt.add();
+    }
+    else{
+        if (word.compare(rt->leftKey) < 0){ // insert left
+            insertHelp(word, line, rt->left, distWords);
+        }
+        else if (word.compare(rt->leftKey) == 0){ // found our word in the tree. Insert the line number into the vector.
+            rt->leftLines.pushback(line);
+        }
+        else if(rt->rightKey == NULL){ // single node
+            if(word.compare(rt->leftKey) > 0){
+                insertHelp(word, line, rt->center);
+            }
+            else if()
+        }
+
+    }
+}
+
+void two3::node::add(){
+    if (this.rightKey == NULL){ // if only one key in the node add the value to this leaf
+        if(this.leftKey)
+    }
 }
