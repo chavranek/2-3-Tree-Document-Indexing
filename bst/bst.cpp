@@ -12,7 +12,7 @@ BST::BST(){
 
 //Returns true if there are no nodes in the tree
 bool BST::isEmpty(){
-    return root == NULL;
+        return root == NULL;
 }
 
 //Used to implement the search function in the main
