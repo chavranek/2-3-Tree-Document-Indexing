@@ -10,9 +10,16 @@
 #include <iostream>
 #include <fstream>
 #include "bst/bst.cpp"
-
+#include "two3/two3.cpp"
 #include <string>
 using namespace std;
+
+/*void justBuildTree(tree, input){
+    if(input.is_open()){
+        tree.buildTree(input);
+        input.close;
+    }
+}*/
 
 int bstFunction(BST & myTree, ifstream & input){
     int choice = 0;
@@ -62,7 +69,6 @@ int bstFunction(BST & myTree, ifstream & input){
     }
 }
 
-
 void compareBoth(BST bst, BST two_3){
 
     string word;
@@ -110,6 +116,63 @@ void compareBoth(BST bst, BST two_3){
     cout << endl;
 }
 
+int two3Function(two3 & two3Tree, ifstream & input){
+    int choice = 0;
+
+    if(input.is_open()){
+        two3Tree.buildTree(input);
+        input.close();
+        while(1){
+            cout << endl;
+            choice = 0;
+            cout << "Options: (1) display index, (2) search, (3) save index, (4) quit\n";
+            cin >> choice;
+
+            choice = int(choice);
+
+            //Print index
+            if(choice == 1)
+                cout << "hey";
+                //myTree.printTree(cout);
+
+
+                //Search index for a word
+            else if(choice == 2){
+                two3Tree.contains();
+                cout << two3Tree.root->leftKey;
+            }
+
+                //Save index
+            else if(choice == 3){
+                string outputFile;
+                cout << "Enter a filename to save your index to (Suggested: <filename>.txt) : ";
+                cin >> outputFile;
+                ofstream output(outputFile.c_str());
+                //myTree.printTree(output);
+                output.close();
+                cout << "Saved\n";
+            }
+
+            else
+                break;
+        }
+    }
+    else{
+        cout << "Invalid File Name. Restart Program.\n";
+        return 2;
+    }
+}
+
+/*void compareBoth(BST tree,  two3 otherTree){
+    setTimer;
+    start searching bst;
+    end timer;
+
+    set timer2;
+    start searching two3;
+    end timer2;
+}*/
+
 int main(int argc, char* argv[]) {
 	string choice;
 	if (argc != 2) {
@@ -134,7 +197,11 @@ int main(int argc, char* argv[]) {
         }
 
         else if (choice == "b")
+        {
             cout << "Creating an index using a 2-3 Tree.";
+            two3 two3Tree;
+            two3Function(two3Tree, input);
+        }
 
         else if (choice == "c")
         {
