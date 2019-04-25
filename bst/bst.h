@@ -15,9 +15,11 @@ class BST{
     public: 
         BST();
         void contains() const;
+        bool search(string x);
         bool isEmpty();
         void printTree(ostream & out = cout) const;
         void buildTree(ifstream & input);
+        vector<string> words;
     private:
     struct node{
 	    node(const string &x, node *l, node *r):

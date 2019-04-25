@@ -10,6 +10,7 @@ using namespace std;
 
 class two3{
     private:
+    vector<int> distWords;
     struct node
     {
 
@@ -66,10 +67,23 @@ class two3{
         }
         void add();
     };
+
 public:
     two3();
     void contains() const;
     bool isEmpty();
     void printTree(ostream & out = cout) const;
     void buildTree(ifstream & input);
+    void compareBoth();
+    int findHeight(node * root);
+    
+
+
+
 };
+
+
+
+
+
+

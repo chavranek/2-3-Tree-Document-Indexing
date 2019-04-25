@@ -41,7 +41,7 @@ void two3::contains() const
 
 string two3::containsHelper(const string & word, node * t, node * &result) const{
     if (t == NULL)
-        return false;
+        return "false";
     else if (t->leftKey.compare(word) == 0){
         result = t;
         return "left";
@@ -155,3 +155,58 @@ void two3::node::add(){
         if(this.leftKey)
     }
 }
+
+
+int two3::height(node * root){
+    if (root = NULL) return 0;
+
+    int depth = 0;
+
+    int L = height(root->left);
+    int R = height(root->right);
+    
+    if (L > R) return L + 1;
+    else
+        return R + 1;
+}
+
+//Prints the index to the supplied receiver, either
+//cout or the output file
+void two3::printTree(ostream & out) const {
+    out << "2-3 Search Tree Index:\n-------------------------\n";
+    printTreeHelper(root, out);
+}
+
+//Called by printTree(), does the actual formatted printing
+void two3::printTreeHelper(node *t, ostream & out) const{
+    if(t == NULL)
+        return;
+    else {
+        printTreeHelper(t->left, out);
+        out << setw(30) << std::left;
+        out << t->leftKey << " " << t->leftLines[0]; 
+        for (int i = 1; i < t->leftLines.size(); i++)
+            out << ", " << t->leftLines[i];
+        out << endl;
+
+        if (t->rightKey == "") { //since right key is empty, there is no middle child
+            printTreeHelper(t->center, out); //but this implementation, if right empty, center = right child, and right is null
+        }
+        else if (t->rightKey != "") {
+            printTreeHelper(t->center, out);
+            out << setw(30) << std::left;
+            out << t->rightKey << " " << t->rightLines[0];
+            for (int i = 1; i < t->rightLines.size(); i++)
+                out << ", " << t->rightLines[i];
+            out << endl;
+            printTreeHelper(t->right, out);
+        }
+    }
+}
+
+
+
+
+
+
+

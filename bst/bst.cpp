@@ -105,6 +105,7 @@ void BST::insertHelper(const string &x, int line, node *& t, int &distWord){
 	    t = new node(x, NULL, NULL);
 	    t->lines.push_back(line);
 	    distWord++;
+	    words.push_back(x);
     }
     else {
 	if (x.compare(t->key) > 0)
@@ -117,6 +118,13 @@ void BST::insertHelper(const string &x, int line, node *& t, int &distWord){
 	    insertHelper(x, line, t->left, distWord);
 			
     }
+}
+
+bool BST::search(string x){
+	node * foundNode = NULL;
+	if (containsHelper(x, root, foundNode))
+		return true;
+	return false;
 }
 
 //Used by contains() to see if a words is present or not. Will
