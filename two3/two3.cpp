@@ -131,7 +131,6 @@ void two3::insertHelp(const string & word, int line, node *& rt, int &distWords,
         rt = new node(word, "", NULL, NULL, NULL, parent);
         rt->leftLines.push_back(line);
         distWords++;
-        cout << "distinct Word:                     " + word << endl;
         if (root == NULL){ // root is NULL so we need to assign it a value
             root = rt;
         }
@@ -146,7 +145,6 @@ void two3::insertHelp(const string & word, int line, node *& rt, int &distWords,
         else{ // the word isn't equal to either values in the node. Going to insert. (promotion may be needed)
             add(word, line, rt, parent);
             distWords++;
-            cout << "distinct Word:                     " + word << endl;
         }
     }
     else{ // looking at 2 node conditions first and then check 3 node conditions
