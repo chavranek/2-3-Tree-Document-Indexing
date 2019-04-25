@@ -70,6 +70,7 @@ int two3Function(two3 & two3Tree, ifstream & input){
         two3Tree.buildTree(input);
         input.close();
         while(1){
+            cout << endl;
             choice = 0;
             cout << "Options: (1) display index, (2) search, (3) save index, (4) quit\n";
             cin >> choice;
@@ -83,8 +84,10 @@ int two3Function(two3 & two3Tree, ifstream & input){
 
 
                 //Search index for a word
-            else if(choice == 2)
+            else if(choice == 2){
                 two3Tree.contains();
+                cout << two3Tree.root->leftKey;
+            }
 
                 //Save index
             else if(choice == 3){
