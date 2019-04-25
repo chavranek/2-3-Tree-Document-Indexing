@@ -61,9 +61,10 @@ public:
     void contains() const;
     bool isEmpty();
     void printTree(ostream & out = cout) const;
+    void printTreeHelper(node *t, ostream & out) const;
     void buildTree(ifstream & input);
     void compareBoth();
-    int findHeight(node * root);
+    int height(node * root);
     vector<string> distinctInputWords;
     void insertHelp(const string & word, int line, node *& rt, int &distWords, node *& parent);
     node *root;
