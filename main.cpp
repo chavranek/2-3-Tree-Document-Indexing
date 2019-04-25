@@ -35,12 +35,16 @@ int bstFunction(BST & myTree, ifstream & input){
             choice = int(choice);
 
             //Print index
-            if(choice == 1)
+            if(choice == 1){
                 myTree.printTree(cout);
+                return 0;
+            }
 
                 //Search index for a word
-            else if(choice == 2)
+            else if(choice == 2){
                 myTree.contains();
+                return 0;
+            }
 
                 //Save index
             else if(choice == 3){
@@ -51,16 +55,65 @@ int bstFunction(BST & myTree, ifstream & input){
                 myTree.printTree(output);
                 output.close();
                 cout << "Saved\n";
+                return 0;
             }
 
             else
                 break;
         }
+        return 0;
     }
     else{
         cout << "Invalid File Name. Restart Program.\n";
         return 2;
     }
+}
+
+void compareBoth(BST bst, BST two_3){
+
+    string word;
+
+    // BST
+    double BST_start, BST_end, BST_total = clock();
+    for (int i = 0; i < bst.words.size(); i++){             // search every dist word in bst
+        word = bst.words.at(i);
+        if (bst.search(word)){   
+            // do nothing
+        }  
+        else{ 
+            cout << "Error searching BST for word: " << bst.words.at(i) << endl;
+        }
+    }
+    // do calculations for time
+    BST_end = clock();                                     
+    BST_total = (double) (BST_end - BST_start)/CLOCKS_PER_SEC;
+
+
+
+    // 2-3 Tree
+    double T3_start, T3_end, T3_total = clock();
+    for (int i = 0; i < bst.words.size(); i++){             // search every dist word in two_3
+        word = bst.words.at(i);
+        if (bst.search(word)){
+            // do nothing
+        }
+        else {
+          cout << "Error searching 2-3 for word: " << bst.words.at(i) << endl;
+        }        
+    }
+    // do calculations for time
+    T3_end = clock();                                     
+    T3_total = (double) (T3_end - T3_start)/CLOCKS_PER_SEC;
+
+
+
+    // output 
+    cout << "Comparing time to build and search all the words in a BST and 2-3 tree " << endl << endl;
+    cout << "-----------------------------------------------------------------------" << endl;
+    cout << endl;
+    cout << "Total time taken by BST: \t\t\t" << BST_total <<  " seconds" << endl;             
+    cout << "Total time taken by 2-3 Tree: \t\t\t" << T3_total << " seconds" << endl;
+    cout << endl;
 }
 
 int two3Function(two3 & two3Tree, ifstream & input){
@@ -70,6 +123,7 @@ int two3Function(two3 & two3Tree, ifstream & input){
         two3Tree.buildTree(input);
         input.close();
         while(1){
+            cout << endl;
             choice = 0;
             cout << "Options: (1) display index, (2) search, (3) save index, (4) quit\n";
             cin >> choice;
@@ -77,14 +131,15 @@ int two3Function(two3 & two3Tree, ifstream & input){
             choice = int(choice);
 
             //Print index
-            if(choice == 1)
-                cout << "hey";
-                //myTree.printTree(cout);
-
+            if(choice == 1){
+                two3Tree.printTree(cout);
+            }
 
                 //Search index for a word
-            else if(choice == 2)
+            else if(choice == 2){
                 two3Tree.contains();
+                cout << two3Tree.root->leftKey;
+            }
 
                 //Save index
             else if(choice == 3){
@@ -92,7 +147,7 @@ int two3Function(two3 & two3Tree, ifstream & input){
                 cout << "Enter a filename to save your index to (Suggested: <filename>.txt) : ";
                 cin >> outputFile;
                 ofstream output(outputFile.c_str());
-                //myTree.printTree(output);
+                two3Tree.printTree(output);
                 output.close();
                 cout << "Saved\n";
             }
@@ -149,18 +204,13 @@ int main(int argc, char* argv[]) {
 
         else if (choice == "c")
         {
-            cout << "Comparing time to build and search all the words in a BST and 2-3 tree ";
-            /*BST tree;
-            bstFunction();
+            BST bst;
+            bst.buildTree(input);
+            BST two_3;
+            two_3.buildTree(input);
 
-            two3 otherTree;
-            two3Function();
-
-            compareBoth(tree, otherTree)
-            */
-
+            compareBoth(bst, two_3);
         }
-
         else
         {
             cout << "Didn't choose a, b, or c.\nExiting program.";

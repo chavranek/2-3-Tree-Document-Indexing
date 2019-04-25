@@ -10,6 +10,7 @@ using namespace std;
 
 class two3{
     private:
+    vector<int> distWords;
     struct node
     {
 
@@ -51,30 +52,35 @@ class two3{
             rightKey = key;
             rightLines = lines;
         }*/
-        void setLeftChild(node *it)
-        {
-            left = it;
-        }
-        void setCenterChild(node *it)
-        {
-            center = it;
-        }
-        void setRightChild(node *it)
-        {
-            right = it;
-        }
-        void add(const string & word, int line);
+
     };
+
     string containsHelper(const string & x, node * t, node* &result) const;
 public:
     two3();
     void contains() const;
     bool isEmpty();
     void printTree(ostream & out = cout) const;
+    void printTreeHelper(node *t, ostream & out) const;
     void buildTree(ifstream & input);
+    void compareBoth();
+    int height(node * root);
     vector<string> distinctInputWords;
-    void insertHelp(const string & word, int line, node *& rt, int &distWords);
+    void insertHelp(const string & word, int line, node *& rt, int &distWords, node *& parent);
     node *root;
+    /*void setLeftChild(node *it){
+        left = it;
+    }
+    void setCenterChild(node *it){
+        center = it;
+    }
+    void setRightChild(node *it){
+        right = it;
+    }*/
+    void add(const string & word, int line, node *& currentNode, node*& parent);
+    void promote(const string smallWord, const string middleWord, const string largeWord, vector<int> smallLines, vector<int> middleLines, vector<int> largeLines, node *& currentNode, node *& parent);
+    void promoteHelper(const string smallWord, const string middleWord, const string largeWord, vector<int> smallLines, vector<int> middleLines, vector<int> largeLines, node *& currentNode, node *& parent);
+    void promoteLeftIntoTwoNode(const string smallWord, const string middleWord, const string largeWord, vector<int> smallLines, vector<int> middleLines, vector<int> largeLines, node *& currentNode, node *& parent);
+    void promoteCenterIntoTwoNode(const string smallWord, const string middleWord, const string largeWord, vector<int> smallLines, vector<int> middleLines, vector<int> largeLines, node *& currentNode, node *& parent);
 };
-
 #endif
