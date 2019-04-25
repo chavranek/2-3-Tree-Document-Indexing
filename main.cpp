@@ -131,10 +131,9 @@ int two3Function(two3 & two3Tree, ifstream & input){
             choice = int(choice);
 
             //Print index
-            if(choice == 1)
-                cout << "hey";
-                //myTree.printTree(cout);
-
+            if(choice == 1){
+                two3Tree.printTree(cout);
+            }
 
                 //Search index for a word
             else if(choice == 2){
@@ -148,7 +147,7 @@ int two3Function(two3 & two3Tree, ifstream & input){
                 cout << "Enter a filename to save your index to (Suggested: <filename>.txt) : ";
                 cin >> outputFile;
                 ofstream output(outputFile.c_str());
-                //myTree.printTree(output);
+                two3Tree.printTree(output);
                 output.close();
                 cout << "Saved\n";
             }

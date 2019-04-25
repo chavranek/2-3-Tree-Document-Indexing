@@ -108,7 +108,7 @@ void two3::buildTree(ifstream & input){
     //Do time and height calculation
     finishTime = clock();
     totalTime = (double) (finishTime - startTime)/CLOCKS_PER_SEC;
-    //treeHeight = findHeight(root);
+    treeHeight = height(root);
 
     //Print output
     cout << setw(40) << std::left;
@@ -131,6 +131,7 @@ void two3::insertHelp(const string & word, int line, node *& rt, int &distWords,
         rt = new node(word, "", NULL, NULL, NULL, parent);
         rt->leftLines.push_back(line);
         distWords++;
+        cout << "distinct Word:                     " + word << endl;
         if (root == NULL){ // root is NULL so we need to assign it a value
             root = rt;
         }
@@ -145,6 +146,7 @@ void two3::insertHelp(const string & word, int line, node *& rt, int &distWords,
         else{ // the word isn't equal to either values in the node. Going to insert. (promotion may be needed)
             add(word, line, rt, parent);
             distWords++;
+            cout << "distinct Word:                     " + word << endl;
         }
     }
     else{ // looking at 2 node conditions first and then check 3 node conditions
@@ -231,11 +233,18 @@ void two3::promoteCenterIntoTwoNode(const string smallWord, const string middleW
     // set up the new node that will now be the right child
     // no matter what the right node wil always have the largest value from the split
     node * rightNode = new node(largeWord, "", NULL, NULL, NULL, parent);
-    rightNode->rightLines = largeLines;
+    rightNode->leftLines = largeLines;
+    parent->right = rightNode;
+    //cout << "large lines at promotion" << largeLines[0] << endl;
+    //cout << "right lines are promotion" << parent->right->leftLines
 
     // set the center node values to the smallest values from the split
     parent->center->leftKey = smallWord;
     parent->center->leftLines = smallLines;
+
+    // empty out the right key elements of the center node
+    parent->center->rightKey = "";
+    parent->center->rightLines.clear();
 
     // promote the middle value up into the parent node. The value being promoted up will always have a higher value than the left key.
     parent->rightKey = middleWord;
