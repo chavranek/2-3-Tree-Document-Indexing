@@ -10,6 +10,7 @@ using namespace std;
 
 class two3{
     private:
+    vector<int> distWords;
     struct node
     {
 
@@ -53,6 +54,7 @@ class two3{
         }*/
 
     };
+
     string containsHelper(const string & x, node * t, node* &result) const;
 public:
     two3();
@@ -60,6 +62,8 @@ public:
     bool isEmpty();
     void printTree(ostream & out = cout) const;
     void buildTree(ifstream & input);
+    void compareBoth();
+    int findHeight(node * root);
     vector<string> distinctInputWords;
     void insertHelp(const string & word, int line, node *& rt, int &distWords, node *& parent);
     node *root;
