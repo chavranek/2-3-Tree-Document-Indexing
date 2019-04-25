@@ -319,7 +319,7 @@ void two3::promoteHelper(const string smallWord, const string middleWord, const 
 
 
 int two3::height(node * root){
-    if (root = NULL) return 0;
+    if (root == NULL) return 0;
 
     int depth = 0;
 
