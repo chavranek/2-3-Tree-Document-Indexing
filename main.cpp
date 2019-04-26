@@ -138,7 +138,6 @@ int two3Function(two3 & two3Tree, ifstream & input){
                 //Search index for a word
             else if(choice == 2){
                 two3Tree.contains();
-                cout << two3Tree.root->leftKey;
             }
 
                 //Save index
@@ -161,16 +160,6 @@ int two3Function(two3 & two3Tree, ifstream & input){
         return 2;
     }
 }
-
-/*void compareBoth(BST tree,  two3 otherTree){
-    setTimer;
-    start searching bst;
-    end timer;
-
-    set timer2;
-    start searching two3;
-    end timer2;
-}*/
 
 int main(int argc, char* argv[]) {
 	string choice;

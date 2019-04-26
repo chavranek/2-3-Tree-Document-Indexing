@@ -94,7 +94,7 @@ void two3::buildTree(ifstream & input){
                 //Once word is formatted,call insert with the word, the line of the input
                 //file it came from, the root of our tree, and the distinct word counter
                 // fake is only there to satisfy the conditions for insertHelp
-                node * fake = new node("", "", NULL, NULL, NULL, NULL);
+                node * fake = new node("", "", NULL, NULL, NULL, NULL, NULL);
                 insertHelp(tempWord, line, root, distWords, fake);
                 //Increment our total number of words inserted
                 numWords++;
@@ -128,7 +128,7 @@ void two3::buildTree(ifstream & input){
 void two3::insertHelp(const string & word, int line, node *& rt, int &distWords, node *& parent){
     // going to try to follow code from open dsa
     if (rt == NULL){
-        rt = new node(word, "", NULL, NULL, NULL, parent);
+        rt = new node(word, "", NULL, NULL, NULL, parent, NULL);
         rt->leftLines.push_back(line);
         distWords++;
         if (root == NULL){ // root is NULL so we need to assign it a value
@@ -175,14 +175,14 @@ void two3::insertHelp(const string & word, int line, node *& rt, int &distWords,
 
 void two3::promote(const string smallWord, const string middleWord, const string largeWord, vector<int> smallLines, vector<int> middleLines, vector<int> largeLines, node *& currentNode, node *& parent){
     if (parent->leftKey == ""){ // we are at the top of the tree and will need to create a new root
-        node * leftNode = new node(smallWord, "", NULL, NULL, NULL, NULL);
+        node * leftNode = new node(smallWord, "", NULL, NULL, NULL, NULL, NULL);
         leftNode->leftLines = smallLines;
-        node * centerNode = new node(largeWord, "", NULL, NULL, NULL, NULL);
+        node * centerNode = new node(largeWord, "", NULL, NULL, NULL, NULL, NULL);
         centerNode->leftLines = largeLines;
-        node * newRoot = new node(middleWord, "", leftNode, NULL, centerNode, NULL);
+        node * newRoot = new node(middleWord, "", leftNode, NULL, centerNode, NULL, NULL);
         newRoot->leftLines = middleLines;
-        leftNode->parent = newRoot;
-        centerNode->parent = newRoot;
+        leftNode->parentNode = newRoot;
+        centerNode->parentNode = newRoot;
         root = newRoot;
     }
 
@@ -194,7 +194,7 @@ void two3::promoteLeftIntoTwoNode(const string smallWord, const string middleWor
     // move the center child node into the right child node first
     // handle the left key parameters first
     // establish a right node to store the information in first
-    node * rightNode = new node("", "", NULL, NULL, NULL, parent);
+    node * rightNode = new node("", "", NULL, NULL, NULL, parent, NULL);
     rightNode->leftKey = parent->center->leftKey;
     rightNode->leftLines = parent->center->leftLines;
 
@@ -230,11 +230,9 @@ void two3::promoteLeftIntoTwoNode(const string smallWord, const string middleWor
 void two3::promoteCenterIntoTwoNode(const string smallWord, const string middleWord, const string largeWord, vector<int> smallLines, vector<int> middleLines, vector<int> largeLines, node *& currentNode, node *& parent){
     // set up the new node that will now be the right child
     // no matter what the right node wil always have the largest value from the split
-    node * rightNode = new node(largeWord, "", NULL, NULL, NULL, parent);
+    node * rightNode = new node(largeWord, "", NULL, NULL, NULL, parent, NULL);
     rightNode->leftLines = largeLines;
     parent->right = rightNode;
-    //cout << "large lines at promotion" << largeLines[0] << endl;
-    //cout << "right lines are promotion" << parent->right->leftLines
 
     // set the center node values to the smallest values from the split
     parent->center->leftKey = smallWord;
@@ -250,9 +248,48 @@ void two3::promoteCenterIntoTwoNode(const string smallWord, const string middleW
 
 }
 
+void two3::promoteLeftIntoThreeNode(const string smallWord, const string middleWord, const string largeWord, vector<int> smallLines, vector<int> middleLines, vector<int> largeLines, node *& currentNode, node *& parent){
+
+    if (parent->parentNode == NULL){ // we are promoting into a root node and will need to create 3 new nodes
+
+        // move the right node contents into the temporary node
+        parent->temp = parent->right;
+
+        // move the center child into the right node
+        parent->right = parent->center;
+
+        // move the largest value into the center node and remove the right key elements from it
+        parent->center->leftKey = largeWord;
+        parent->center->leftLines = largeLines;
+        parent->center->rightKey = "";
+        parent->center->rightLines.clear();
+
+        // set the left key of the left child to the smallest value options.
+        // we can use currentNode here since we know that we are promoting from the left node.
+        currentNode->leftKey = smallWord;
+        currentNode->leftLines = smallLines;
+        currentNode->rightKey = "";
+        currentNode->rightLines.clear();
+
+
+        node * newLeft = new node(middleWord, "", parent->left, NULL, parent->center, NULL, NULL);
+        newLeft->leftLines = middleLines;
+
+        node * newCenter = new node(parent->rightKey, "", parent->right, NULL, parent->temp, NULL, NULL);
+        newCenter->leftLines = parent->rightLines;
+
+        node * newRoot = new node(parent->leftKey, "", newLeft, NULL, newCenter, NULL, NULL);
+        root = newRoot;
+
+        newLeft->parentNode = root;
+        newCenter->parentNode = root;
+
+    }
+
+}
+
 void two3::promoteHelper(const string smallWord, const string middleWord, const string largeWord, vector<int> smallLines, vector<int> middleLines, vector<int> largeLines, node *& currentNode, node *& parent){
     if (parent->leftKey == ""){ // the parent is a NULL node which means we are going to promote the parent.
-        cout << "root node promotion" << endl;
         promote(smallWord, middleWord, largeWord, smallLines, middleLines, largeLines, currentNode, parent);
     }
     else if (parent->rightKey == ""){ // we are just going to insert the promoted element into the parent node since it has a free slot
@@ -264,7 +301,10 @@ void two3::promoteHelper(const string smallWord, const string middleWord, const 
         }
     }
     else{
-        cout << "three node parent promotion" << endl;
+        if (parent->left->leftKey == currentNode->leftKey){ // going to split the left node
+            /* Comment out this line to see the a tree properly printing out c,o,m,p,u,t,i,n */
+            promoteLeftIntoThreeNode(smallWord, middleWord, largeWord, smallLines, middleLines, largeLines, currentNode, parent);
+        }
     }
 }
 
@@ -317,8 +357,6 @@ void two3::promoteHelper(const string smallWord, const string middleWord, const 
             largestWord = currentNode->rightKey;
             largestLines = currentNode->rightLines;
         }
-
-        //node * firstNode = new node();
 
         promoteHelper(smallestWord, middleWord, largestWord, smallestLines, middleLines, largestLines, currentNode, parent);
     }

@@ -13,20 +13,11 @@ class two3{
     vector<int> distWords;
     struct node
     {
-
-        node(){
-            string leftKey = "";
-            string rightKey = "";
-            node *center = NULL;
-            node *left = NULL;
-            node *right = NULL;
-            node *parent = NULL;
-        }
         node(const string &lk,
              const string &rk,
-             node *l, node *r, node *c, node *p)
+             node *l, node *r, node *c, node *p, node * tmp)
                 : leftKey(lk), rightKey(rk),
-                  left(l), right(r), center(c), parent(p)
+                  left(l), right(r), center(c), parentNode(p), temp(tmp)
         {
             leftLines.resize(0), rightLines.resize(0);
         }
@@ -36,7 +27,8 @@ class two3{
         node *center;
         node *left;
         node *right;
-        node *parent;
+        node *parentNode;
+        node *temp;
         vector<int> leftLines;
         vector<int> rightLines;
 
@@ -82,5 +74,6 @@ public:
     void promoteHelper(const string smallWord, const string middleWord, const string largeWord, vector<int> smallLines, vector<int> middleLines, vector<int> largeLines, node *& currentNode, node *& parent);
     void promoteLeftIntoTwoNode(const string smallWord, const string middleWord, const string largeWord, vector<int> smallLines, vector<int> middleLines, vector<int> largeLines, node *& currentNode, node *& parent);
     void promoteCenterIntoTwoNode(const string smallWord, const string middleWord, const string largeWord, vector<int> smallLines, vector<int> middleLines, vector<int> largeLines, node *& currentNode, node *& parent);
+    void promoteLeftIntoThreeNode(const string smallWord, const string middleWord, const string largeWord, vector<int> smallLines, vector<int> middleLines, vector<int> largeLines, node *& currentNode, node *& parent);
 };
 #endif
