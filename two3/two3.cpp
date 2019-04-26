@@ -3,9 +3,10 @@
 #include <iomanip>
 #include <sstream>
 
+// constructor
 two3::two3()
 {
-    root = NULL;
+   root = NULL; 
 }
 
 //Returns true if there are no nodes in the tree
@@ -14,6 +15,16 @@ bool two3::isEmpty()
     return root == NULL;
 }
 
+// t/f search a word in the tree
+bool two3::search(string x)
+{
+    node * foundNode = NULL;
+    if (containsHelper(x, root, foundNode) == "right" || containsHelper(x, root, foundNode) == "left")
+        return true;
+    return false;
+}
+
+// search word and output locations
 void two3::contains() const
 {
     string input;
@@ -23,34 +34,41 @@ void two3::contains() const
     // isInTree will have either false, right, or left to distinguish whether or not
     // the word is in the tree, and if it is what key location is it at?
     string isInTree = containsHelper(input, root, foundNode);
+
     if(isInTree == "left"){
         cout << "Line Numbers: " << foundNode->leftLines[0];
         for(int i = 1; i < foundNode->leftLines.size(); i++)
             cout << ", " << foundNode->leftLines[i];
         cout << '\n';
     }
+
     else if (isInTree == "right"){
         cout << "Line Numbers: " << foundNode->rightLines[0];
         for(int i = 1; i < foundNode->rightLines.size(); i++)
             cout << ", " << foundNode->rightLines[i];
         cout << '\n';
     }
+
     else
         cout << '\"' << input <<"\" is not in the document\n";
 }
 
-string two3::containsHelper(const string & word, node * t, node * &result) const{
-    if (t == NULL)
-        return "false";
+
+// used in contains and search functions
+string two3::containsHelper(const string & word, node * t, node * &result) const
+{
+    if (t == NULL)  return "false";
+
     else if (t->leftKey.compare(word) == 0){
         result = t;
         return "left";
     }
+
     else if (t->rightKey.compare(word) == 0){
         result = t;
         return "right";
     }
-    // this condition is to check the
+
     else if (t->rightKey == ""){
         if (word > t->leftKey){
             return containsHelper(word, t->center, result);
@@ -58,6 +76,7 @@ string two3::containsHelper(const string & word, node * t, node * &result) const
         else
             return containsHelper(word, t->left, result);
     }
+
     else
         if (word < t->leftKey){
             return containsHelper(word, t->left, result);
@@ -68,18 +87,21 @@ string two3::containsHelper(const string & word, node * t, node * &result) const
         return containsHelper(word, t->right, result);
 }
 
-void two3::buildTree(ifstream & input){
+// take in input and build tree
+void two3::buildTree(ifstream & input)
+{
     int line = 1, numWords = 0, distWords = 0, treeHeight = 0;
     stringstream tempWord;
     double totalTime, finishTime, startTime = clock();
     while (!input.eof()) {
         string tempLine, tempWord;
-
         //Read a whole line of text from the file
         getline(input, tempLine);
-        for (int i = 0; i < tempLine.length(); i++) {
+        for (int i = 0; i < tempLine.length(); i++) 
+        {
             //Insert valid chars into tempWord until a delimiter( newline or space) is found
-            while (tempLine[i] != ' '&& tempLine[i] != '\n' && i < tempLine.length() ) {
+            while (tempLine[i] != ' '&& tempLine[i] != '\n' && i < tempLine.length() ) 
+            {
                 tempWord.insert(tempWord.end(), tempLine[i]);
                 i++;
             }
@@ -101,7 +123,6 @@ void two3::buildTree(ifstream & input){
                 //Clear out tempWord so we can use it again
                 tempWord.clear();
             }
-
         }
         line++;
     }
@@ -113,24 +134,23 @@ void two3::buildTree(ifstream & input){
     //Print output
     cout << setw(40) << std::left;
     cout << "Total number of words: " << numWords<< endl;
-
     cout << setw(40) << std::left
          << "Total number of distinct words: " << distWords << endl;
-
     cout << setw(40) << std::left
          <<"Total time spent building index: " << totalTime << endl;
-
     cout << setw(40) << std::left
          <<"Height of 2-3 tree is : " << treeHeight << endl;
 
 }
 
+// helps with the insertion of a node
 void two3::insertHelp(const string & word, int line, node *& rt, int &distWords, node *& parent){
     // going to try to follow code from open dsa
     if (rt == NULL){
         rt = new node(word, "", NULL, NULL, NULL, parent, NULL);
         rt->leftLines.push_back(line);
         distWords++;
+        
         if (root == NULL){ // root is NULL so we need to assign it a value
             root = rt;
         }
@@ -145,6 +165,7 @@ void two3::insertHelp(const string & word, int line, node *& rt, int &distWords,
         else{ // the word isn't equal to either values in the node. Going to insert. (promotion may be needed)
             add(word, line, rt, parent);
             distWords++;
+            
         }
     }
     else{ // looking at 2 node conditions first and then check 3 node conditions
@@ -173,6 +194,7 @@ void two3::insertHelp(const string & word, int line, node *& rt, int &distWords,
 
 }
 
+// node promotion
 void two3::promote(const string smallWord, const string middleWord, const string largeWord, vector<int> smallLines, vector<int> middleLines, vector<int> largeLines, node *& currentNode, node *& parent){
     if (parent->leftKey == ""){ // we are at the top of the tree and will need to create a new root
         node * leftNode = new node(smallWord, "", NULL, NULL, NULL, NULL, NULL);
@@ -308,14 +330,16 @@ void two3::promoteHelper(const string smallWord, const string middleWord, const 
     }
 }
 
-    void two3::add(const string & word, int line, node*& currentNode, node*& parent){
+void two3::add(const string & word, int line, node*& currentNode, node*& parent){
     if (currentNode->rightKey == ""){ // working with a 2 node at the leaf level
-        if(word.compare(currentNode->leftKey) > 0){ // word is greater than the left key so the word can be placed in the right
+        if(word.compare(currentNode->leftKey) > 0)
+        { // word is greater than the left key so the word can be placed in the right
             currentNode->rightKey = word;
             currentNode->rightLines.push_back(line);
 
         }
-        else{ // the word is smaller than the left key so we need to swap the values
+        else
+        { // the word is smaller than the left key so we need to swap the values
             currentNode->rightKey = currentNode->leftKey;
             currentNode->rightLines = currentNode->leftLines;
             currentNode->leftKey = word;
@@ -333,7 +357,8 @@ void two3::promoteHelper(const string smallWord, const string middleWord, const 
         vector<int> middleLines;
         vector<int> largestLines;
 
-        if (word.compare(currentNode->leftKey) < 0){ // the current word is the smallest word
+        if (word.compare(currentNode->leftKey) < 0)  // the current word is the smallest word
+        {
             smallestWord = word;
             smallestLines.push_back(line);
             middleWord = currentNode->leftKey;
@@ -341,7 +366,9 @@ void two3::promoteHelper(const string smallWord, const string middleWord, const 
             largestWord = currentNode->rightKey;
             largestLines = currentNode->rightLines;
         }
-        else if (word.compare(currentNode->rightKey) > 0){ // the current word is the largestWord
+
+        else if (word.compare(currentNode->rightKey) > 0) // the current word is the largestWord
+        { 
             smallestWord = currentNode->leftKey;
             smallestLines = currentNode->leftLines;
             middleWord = currentNode->rightKey;
@@ -349,7 +376,9 @@ void two3::promoteHelper(const string smallWord, const string middleWord, const 
             largestWord = word;
             largestLines.push_back(line);
         }
-        else{ // the word is greater than the left key, but smaller than the right key, so it is the middle value
+
+        else        // the word is greater than the left key, but smaller than the right key, so it is the middle value
+        { 
             smallestWord = currentNode->leftKey;
             smallestLines = currentNode->leftLines;
             middleWord = word;
@@ -357,13 +386,13 @@ void two3::promoteHelper(const string smallWord, const string middleWord, const 
             largestWord = currentNode->rightKey;
             largestLines = currentNode->rightLines;
         }
-
-        promoteHelper(smallestWord, middleWord, largestWord, smallestLines, middleLines, largestLines, currentNode, parent);
     }
 }
 
 
-int two3::height(node * root){
+// returns the height of the tree
+int two3::height(node * root)
+{
     if (root == NULL) return 0;
 
     int depth = 0;
@@ -391,12 +420,12 @@ void two3::printTreeHelper(node *t, ostream & out) const{
         printTreeHelper(t->left, out);
         out << setw(30) << std::left;
         out << t->leftKey << " " << t->leftLines[0]; 
-        for (int i = 1; i < t->leftLines.size(); i++)
+        for (int i = 1; i < t->leftLines.size(); i++){
             out << ", " << t->leftLines[i];
+        }
         out << endl;
-
-        if (t->rightKey == "") { //since right key is empty, there is no middle child
-            printTreeHelper(t->center, out); //but this implementation, if right empty, center = right child, and right is null
+        if (t->rightKey == "") {                // empty right key = no right child
+            printTreeHelper(t->center, out); 
         }
         else if (t->rightKey != "") {
             printTreeHelper(t->center, out);

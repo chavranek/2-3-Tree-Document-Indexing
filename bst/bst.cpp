@@ -106,6 +106,7 @@ void BST::insertHelper(const string &x, int line, node *& t, int &distWord){
 	    t->lines.push_back(line);
 	    distWord++;
 	    words.push_back(x);
+	   
     }
     else {
 	if (x.compare(t->key) > 0)
