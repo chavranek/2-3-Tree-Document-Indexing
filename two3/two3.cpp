@@ -386,6 +386,9 @@ void two3::add(const string & word, int line, node*& currentNode, node*& parent)
             largestWord = currentNode->rightKey;
             largestLines = currentNode->rightLines;
         }
+
+        promoteHelper(smallestWord, middleWord, largestWord, smallestLines, middleLines, largestLines, currentNode, parent);
+
     }
 }
 

@@ -66,13 +66,12 @@ void compareBoth(BST bst, two3 two_3){
 
     string word;
 
-    vector<string> words;
-    words = bst.words;
+    vector<string> wordsVec = bst.words;
 
     // BST
     double BST_start, BST_end, BST_total = clock();
-    for (int i = 0; i < words.size(); i++){             // search every dist word in bst
-        word = words.at(i);
+    for (int i = 0; i < wordsVec.size(); i++){             // search every dist word in bst
+        word = bst.words.at(i);
         if (bst.search(word)){   
             // do nothing
         }  
@@ -85,17 +84,15 @@ void compareBoth(BST bst, two3 two_3){
     BST_total = (double) (BST_end - BST_start)/CLOCKS_PER_SEC;
 
 
-
     // 2-3 Tree
     double T3_start, T3_end, T3_total = clock();
-    cout << words.size() << endl;
-    for (int i = 0; i < words.size(); i++){             // search every dist word in two_3
-        word = words.at(i);
+    for (int i = 0; i < wordsVec.size(); i++){             // search every dist word in two_3
+        word = wordsVec[i];
         if (two_3.search(word)){
             // do nothing
         }
         else {
-          cout << "Error searching 2-3 for word: " << two_3.words.at(i) << endl;
+          cout << "Error searching 2-3 for word: " << wordsVec[i] << endl;
         }        
     }
     // do calculations for time
@@ -173,6 +170,7 @@ int main(int argc, char* argv[]) {
         cin >> choice;
 
         ifstream input(argv[1]);
+        ifstream input2(argv[1]);
 
         if (choice == "a")
         {
@@ -194,7 +192,7 @@ int main(int argc, char* argv[]) {
             BST bst;
             bst.buildTree(input);
             two3 two_3;
-            two_3.buildTree(input);
+            two_3.buildTree(input2);
 
             compareBoth(bst, two_3);
         }
