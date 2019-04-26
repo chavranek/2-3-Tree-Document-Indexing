@@ -10,10 +10,8 @@ using namespace std;
 
 class two3{
     private:
-    vector<int> distWords;
     struct node
     {
-
         node(){
             string leftKey = "";
             string rightKey = "";
@@ -22,11 +20,9 @@ class two3{
             node *right = NULL;
             node *parent = NULL;
         }
-        node(const string &lk,
-             const string &rk,
-             node *l, node *r, node *c, node *p)
-                : leftKey(lk), rightKey(rk),
-                  left(l), right(r), center(c), parent(p)
+        node(const string &lk,const string &rk,
+            node *l, node *r, node *c, node *p): 
+            leftKey(lk), rightKey(rk), left(l), right(r), center(c), parent(p)
         {
             leftLines.resize(0), rightLines.resize(0);
         }
@@ -43,18 +39,7 @@ class two3{
         bool isLeaf(){
             return left == NULL;
         }
-
-        /*void setLeft(string key, vector<int> lines){
-            leftKey = key;
-            leftLines = lines;
-        }
-        void setRight(string key, vector<int> lines){
-            rightKey = key;
-            rightLines = lines;
-        }*/
-
     };
-
     string containsHelper(const string & x, node * t, node* &result) const;
 public:
     two3();
@@ -65,18 +50,10 @@ public:
     void buildTree(ifstream & input);
     void compareBoth();
     int height(node * root);
-    vector<string> distinctInputWords;
+    vector<string> words;
     void insertHelp(const string & word, int line, node *& rt, int &distWords, node *& parent);
     node *root;
-    /*void setLeftChild(node *it){
-        left = it;
-    }
-    void setCenterChild(node *it){
-        center = it;
-    }
-    void setRightChild(node *it){
-        right = it;
-    }*/
+    bool search(string x);
     void add(const string & word, int line, node *& currentNode, node*& parent);
     void promote(const string smallWord, const string middleWord, const string largeWord, vector<int> smallLines, vector<int> middleLines, vector<int> largeLines, node *& currentNode, node *& parent);
     void promoteHelper(const string smallWord, const string middleWord, const string largeWord, vector<int> smallLines, vector<int> middleLines, vector<int> largeLines, node *& currentNode, node *& parent);
@@ -84,3 +61,13 @@ public:
     void promoteCenterIntoTwoNode(const string smallWord, const string middleWord, const string largeWord, vector<int> smallLines, vector<int> middleLines, vector<int> largeLines, node *& currentNode, node *& parent);
 };
 #endif
+
+
+
+
+
+
+
+
+
+

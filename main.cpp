@@ -1,11 +1,11 @@
-/*
- * Authors: Christian Havranek, Isaac Florez
- * Class: CS 415
- * Project: Project 3 (Making an index using 2-3 Tree)
- * Description: Use a 2-3 tree to create an index from a given given document with the words
- * in the document as the keys in the 2-3 tree, and the line numbers where the key appears
- * as the information attached to the key.
- * */
+/*********************************************************************************************
+ * Authors: Christian Havranek, Isaac Florez                                                 *
+ * Class: CS 415                                                                             *
+ * Project: Project 3 (Making an index using 2-3 Tree)                                       *
+ * Description: Use a 2-3 tree to create an index from a given given document with the words *
+ * in the document as the keys in the 2-3 tree, and the line numbers where the key appears   *
+ * as the information attached to the key.                                                   *
+ * *********************************************************************** * * * * * * * * * */ 
 
 #include <iostream>
 #include <fstream>
@@ -69,14 +69,17 @@ int bstFunction(BST & myTree, ifstream & input){
     }
 }
 
-void compareBoth(BST bst, BST two_3){
+void compareBoth(BST bst, two3 two_3){
 
     string word;
 
+    vector<string> words;
+    words = bst.words;
+
     // BST
     double BST_start, BST_end, BST_total = clock();
-    for (int i = 0; i < bst.words.size(); i++){             // search every dist word in bst
-        word = bst.words.at(i);
+    for (int i = 0; i < words.size(); i++){             // search every dist word in bst
+        word = words.at(i);
         if (bst.search(word)){   
             // do nothing
         }  
@@ -92,13 +95,14 @@ void compareBoth(BST bst, BST two_3){
 
     // 2-3 Tree
     double T3_start, T3_end, T3_total = clock();
-    for (int i = 0; i < bst.words.size(); i++){             // search every dist word in two_3
-        word = bst.words.at(i);
-        if (bst.search(word)){
+    cout << words.size() << endl;
+    for (int i = 0; i < words.size(); i++){             // search every dist word in two_3
+        word = words.at(i);
+        if (two_3.search(word)){
             // do nothing
         }
         else {
-          cout << "Error searching 2-3 for word: " << bst.words.at(i) << endl;
+          cout << "Error searching 2-3 for word: " << two_3.words.at(i) << endl;
         }        
     }
     // do calculations for time
@@ -108,8 +112,9 @@ void compareBoth(BST bst, BST two_3){
 
 
     // output 
-    cout << "Comparing time to build and search all the words in a BST and 2-3 tree " << endl << endl;
-    cout << "-----------------------------------------------------------------------" << endl;
+    cout << endl;
+    cout << "Comparing build / search times for words in a BST and 2-3 tree " << endl << endl;
+    cout << "---------------------------------------------------------------" << endl;
     cout << endl;
     cout << "Total time taken by BST: \t\t\t" << BST_total <<  " seconds" << endl;             
     cout << "Total time taken by 2-3 Tree: \t\t\t" << T3_total << " seconds" << endl;
@@ -138,7 +143,7 @@ int two3Function(two3 & two3Tree, ifstream & input){
                 //Search index for a word
             else if(choice == 2){
                 two3Tree.contains();
-                cout << two3Tree.root->leftKey;
+                
             }
 
                 //Save index
@@ -162,15 +167,6 @@ int two3Function(two3 & two3Tree, ifstream & input){
     }
 }
 
-/*void compareBoth(BST tree,  two3 otherTree){
-    setTimer;
-    start searching bst;
-    end timer;
-
-    set timer2;
-    start searching two3;
-    end timer2;
-}*/
 
 int main(int argc, char* argv[]) {
 	string choice;
@@ -206,7 +202,7 @@ int main(int argc, char* argv[]) {
         {
             BST bst;
             bst.buildTree(input);
-            BST two_3;
+            two3 two_3;
             two_3.buildTree(input);
 
             compareBoth(bst, two_3);
