@@ -14,13 +14,6 @@
 #include <string>
 using namespace std;
 
-/*void justBuildTree(tree, input){
-    if(input.is_open()){
-        tree.buildTree(input);
-        input.close;
-    }
-}*/
-
 int bstFunction(BST & myTree, ifstream & input){
     int choice = 0;
 
@@ -143,7 +136,6 @@ int two3Function(two3 & two3Tree, ifstream & input){
                 //Search index for a word
             else if(choice == 2){
                 two3Tree.contains();
-                
             }
 
                 //Save index
@@ -166,7 +158,6 @@ int two3Function(two3 & two3Tree, ifstream & input){
         return 2;
     }
 }
-
 
 int main(int argc, char* argv[]) {
 	string choice;
